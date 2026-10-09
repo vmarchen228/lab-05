@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,12 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.listycity.ui.theme.ListyCityTheme
+import kotlin.text.isNotBlank
 
 @Composable
 fun CityListScreen(
     cities: List<City>,
     onAddCity: (City) -> Unit,
     onUpdateCity: (City, City) -> Unit,
+    onDeleteCity: (City) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var newCityName by remember { mutableStateOf("") }
@@ -102,6 +105,9 @@ fun CityListScreen(
                 ) {
                     Text("ADD CITY")
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+
+
             }
         }
         if (selectedCity != null) {
@@ -153,6 +159,25 @@ fun CityListScreen(
                 ) {
                     Text("UPDATE CITY")
                 }
+
+
+
+
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(
+                modifier = Modifier.padding(vertical = 12.dp),
+                onClick = {
+                    val cityToDelete = selectedCity
+                    if (cityToDelete != null) {
+                        onDeleteCity(cityToDelete)
+
+                    }
+
+                }
+            ) {
+                Text("DELETE CITY")
             }
         }
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -171,6 +196,7 @@ fun CityListScreen(
                 if (index < cities.lastIndex) {
                     HorizontalDivider()
                 }
+
             }
         }
     }
@@ -213,7 +239,8 @@ fun CityListScreenPreview() {
                 City("Calgary", "AB")
             ),
             onAddCity = {},
-            onUpdateCity = { _, _ -> }
+            onUpdateCity = { _, _ -> },
+            onDeleteCity = {}
         )
     }
 }
